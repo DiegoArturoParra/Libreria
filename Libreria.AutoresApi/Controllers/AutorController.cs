@@ -5,9 +5,11 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Libreria.AutoresApi.Controllers
 {
+    [EnableCors("*", "*", "*")]
     [RoutePrefix("api/autores")]
     public class AutorController : ApiController
     {
@@ -43,6 +45,27 @@ namespace Libreria.AutoresApi.Controllers
         }
 
         [HttpGet]
+        [Route("conteo-libros/{id}")]
+        public IHttpActionResult ConteoLibrosByAutor(int id)
+        {
+            try
+            {
+                var numero = _autorService.ConteoLibrosByAutor(id);
+                return Ok(numero);
+            }
+            catch (Exception ex)
+            {
+                var error = $"Error al manejar la solicitud. Error: {ex.Message}";
+                var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                {
+                    Content = new StringContent(error, System.Text.Encoding.UTF8, "text/plain")
+                };
+                return ResponseMessage(httpResponseMessage);
+            }
+        }
+
+
+        [HttpGet]
         [Route("{id}")]
 
         public IHttpActionResult GetAutor(int id)
@@ -68,6 +91,10 @@ namespace Libreria.AutoresApi.Controllers
 
         public IHttpActionResult Post(Autor autor)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Nombre y apellido requeridos.");
+            }
             var response = _autorService.Crear(autor);
             return ResultadoStatus(response);
         }
@@ -77,6 +104,10 @@ namespace Libreria.AutoresApi.Controllers
 
         public IHttpActionResult Put(Autor autor)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Nombre y apellido requeridos.");
+            }
             var response = _autorService.Editar(autor);
             return ResultadoStatus(response);
         }

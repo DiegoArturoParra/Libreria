@@ -71,5 +71,16 @@ namespace Libreria.Repositorio
                 connection.Execute(query, new { id });
             }
         }
+
+        public int ConteoLibrosByAutor(int id)
+        {
+            int conteo = 0;
+            var query = "SELECT COUNT(*) FROM libreria.libro WHERE autor_id = @id";
+            using (var connection = new SqlConnection(connectionString))
+            {
+                conteo = connection.Query<int>(query, new { id }).SingleOrDefault();
+            }
+            return conteo;
+        }
     }
 }

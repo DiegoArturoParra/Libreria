@@ -12,17 +12,5 @@ namespace Libreria.Repositorio
         {
             optionsBuilder.UseSqlServer(connectionString);
         }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Libro>(entity =>
-            {
-                entity.HasOne(a => a.Autor)
-                 .WithMany(l => l.Libros)
-                .HasForeignKey(a => a.AutorId);
-                entity.HasIndex(i => i.ISBN).IsUnique();
-            });
-
-            base.OnModelCreating(modelBuilder);
-        }
     }
 }

@@ -19,6 +19,5 @@ namespace Libreria.Entidades.Models
         [Required]
         [Column("edad")]
         public short Edad { get; set; }
-        public ICollection<Libro> Libros { get; set; }
     }
 }

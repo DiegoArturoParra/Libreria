@@ -32,6 +32,7 @@ namespace Libreria.LibrosApi.Controllers
             var query = _libroService.ListadoLibrosByAutor(id);
             return Ok(query);
         }
+
         [HttpGet("{id}")]
         public IActionResult GetLibro(int id)
         {

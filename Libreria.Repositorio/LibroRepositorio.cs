@@ -14,7 +14,7 @@ namespace Libreria.Repositorio
         }
         public List<Libro> GetLibros()
         {
-            return db.TablaLibros.Include(x => x.Autor).ToList();
+            return db.TablaLibros.ToList();
         }
 
         public Libro GetLibro(int id)
@@ -36,7 +36,8 @@ namespace Libreria.Repositorio
         }
         public List<Libro> GetLibrosByAutor(int idAutor)
         {
-            return db.TablaLibros.Where(x => x.AutorId == idAutor).ToList();
+            var listado = db.TablaLibros.Where(x => x.AutorId == idAutor).ToList();
+            return listado;
         }
         public bool ExisteAutor(int autorId)
         {
